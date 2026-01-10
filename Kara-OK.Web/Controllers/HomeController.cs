@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Kara_OK.Web.Models;
 using Kara_OK.Web.Models.Identity;
+using Kara_OK.Web.Services;
 
 namespace Kara_OK.Web.Controllers;
 
@@ -10,11 +11,13 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoomsQueryService _rooms;
     
-    public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
+    public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoomsQueryService rooms)
     {
         _logger = logger;
         _userManager = userManager;
+        _rooms = rooms;
     }
 
     public async Task<IActionResult> Index()
@@ -25,7 +28,8 @@ public class HomeController : Controller
             ViewBag.FirstName = user?.FirstName;
         }
 
-        return View();
+        var rooms = await _rooms.GetActiveRoomsAsync();
+        return View(rooms);
     }
 
     public IActionResult Privacy()

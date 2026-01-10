@@ -1,0 +1,7 @@
+@model IReadOnlyList<Kara_OK.Web.Models.ViewModels.Rooms.RoomListViewModel>
+
+@{
+    ViewData["Title"] = "Rooms";
+}
+
+@await Html.PartialAsync("_RoomsList", Model)

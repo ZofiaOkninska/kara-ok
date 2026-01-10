@@ -26,6 +26,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddDefaultTokenProviders();
 
 builder.Services.AddTransient<IEmailSender, DevEmailSender>();
+builder.Services.AddScoped<RoomsQueryService>();
 
 // MVC
 builder.Services.AddControllersWithViews();

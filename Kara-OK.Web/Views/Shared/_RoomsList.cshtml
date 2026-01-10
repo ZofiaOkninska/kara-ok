@@ -1,0 +1,36 @@
+@model IReadOnlyList<Kara_OK.Web.Models.ViewModels.Rooms.RoomListViewModel>
+
+<h1>Rooms</h1>
+
+@if (Model is null || Model.Count == 0)
+{
+    <p>No active rooms available.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Capacity</th>
+            <th>Price / hour</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.Name</td>
+                <td>@r.Capacity</td>
+                <td>@r.PricePerHour.ToString("0.00") zł</td>
+                <td>
+                    <a asp-controller="Rooms" asp-action="Details" asp-route-id="@r.Id">
+                        Details
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

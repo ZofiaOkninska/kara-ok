@@ -1,0 +1,35 @@
+@model Kara_OK.Web.Models.ViewModels.Rooms.RoomDetailsViewModel
+
+@{
+    ViewData["Title"] = "Room details";
+}
+
+<div class="mb-3">
+    <a asp-controller="Rooms" asp-action="Index">&larr; Back to list</a>
+</div>
+
+<h1>@Model.Name</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Capacity</dt>
+    <dd class="col-sm-9">@Model.Capacity</dd>
+
+    <dt class="col-sm-3">Price / hour</dt>
+    <dd class="col-sm-9">@Model.PricePerHour.ToString("0.00") zł</dd>
+</dl>
+
+<h3>Equipment</h3>
+
+@if (!Model.EquipmentList.Any())
+{
+    <p class="text-muted">No equipment information provided.</p>
+}
+else
+{
+    <ul>
+        @foreach (var item in Model.EquipmentList)
+        {
+            <li>@item</li>
+        }
+    </ul>
+}

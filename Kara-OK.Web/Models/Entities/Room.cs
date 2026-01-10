@@ -19,9 +19,8 @@ public class Room
 
     public bool IsActive { get; set; } = true;
 
-    [Required(AllowEmptyStrings=false)] 
     [MaxLength(ValidationConstants.EquipmentDescriptionMaxLength)]
-    public string EquipmentDescription { get; set; } = "No equipment added yet";
+    public string EquipmentDescription { get; set; } = string.Empty;
 
     // Navigation
     public List<BookingRequest> BookingRequests { get; set; } = new();

@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IReadOnlyList<Kara_OK.Web.Models.ViewModels.Rooms.RoomListViewModel>
+
+@{
+    ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
@@ -8,4 +10,9 @@
         <h1>Hi, @ViewBag.FirstName!</h1>
     }
     <h1>Welcome to Kara-OK</h1>
+    <h3>Browse available karaoke rooms below.</h3>
 </div>
+
+<hr />
+
+@await Html.PartialAsync("_RoomsList", Model)
