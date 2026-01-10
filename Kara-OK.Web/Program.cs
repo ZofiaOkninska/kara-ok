@@ -33,6 +33,9 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
+// Seed Data
+await DbInitializer.SeedAsync(app.Services);
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
