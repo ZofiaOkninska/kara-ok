@@ -33,3 +33,8 @@ else
         }
     </ul>
 }
+
+@if (User.IsInRole("Owner"))
+{
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+}

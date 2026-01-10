@@ -1,0 +1,55 @@
+@model Kara_OK.Web.Models.ViewModels.Rooms.EditRoomViewModel
+
+@{
+    ViewData["Title"] = "Edit room";
+}
+
+<h1>Edit room</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Capacity" class="form-label"></label>
+                <input asp-for="Capacity" class="form-control" />
+                <span asp-validation-for="Capacity" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PricePerHour" class="form-label"></label>
+                <input asp-for="PricePerHour" class="form-control" type="text" inputmode="decimal" data-val="false"/>
+                <span asp-validation-for="PricePerHour" class="text-danger"></span>
+                <div class="form-text">Price in PLN per hour (eg. 25,00).</div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EquipmentDescription" class="form-label"></label>
+                <textarea asp-for="EquipmentDescription" class="form-control" rows="3"
+                          placeholder="Mic, Speakers, Screen"></textarea>
+                <span asp-validation-for="EquipmentDescription" class="text-danger"></span>
+                <div class="form-text">
+                    Separate items with commas. Example: <strong>Mic, Speakers, Screen</strong>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -3,7 +3,9 @@ using Kara_OK.Web.Models.Identity;
 using Kara_OK.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +27,22 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
+// Services
 builder.Services.AddTransient<IEmailSender, DevEmailSender>();
 builder.Services.AddScoped<RoomsQueryService>();
+builder.Services.AddScoped<RoomsCommandService>();
+
+// Localization - Polish
+var pl = new CultureInfo("pl-PL");
+CultureInfo.DefaultThreadCurrentCulture = pl;
+CultureInfo.DefaultThreadCurrentUICulture = pl;
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture(pl);
+    options.SupportedCultures = new[] { pl };
+    options.SupportedUICultures = new[] { pl };
+});
 
 // MVC
 builder.Services.AddControllersWithViews();
@@ -45,19 +61,18 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+app.UseRequestLocalization();
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 

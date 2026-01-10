@@ -28,6 +28,12 @@ else
                     <a asp-controller="Rooms" asp-action="Details" asp-route-id="@r.Id">
                         Details
                     </a>
+
+                    @if (User.IsInRole("Owner"))
+                    {
+                        <span> | </span>
+                        <a asp-controller="Rooms" asp-action="Edit" asp-route-id="@r.Id">Edit</a>
+                    }
                 </td>
             </tr>
         }
