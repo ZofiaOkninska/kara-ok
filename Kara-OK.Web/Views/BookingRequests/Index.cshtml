@@ -20,53 +20,61 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Room</th>
-            @if (User.IsInRole("Owner"))
-            {
-                <th>Customer</th>
-            }
-            <th>Start</th>
-            <th>End</th>
-            <th>Status</th>
-            <th>Total</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var r in Model)
-        {
+    <div class="card-dark p-4">
+        <table class="table table-dark table-borderless mb-0 requests-table">
+            <thead>
             <tr>
-                <td>
-                    <a asp-controller="Rooms" asp-action="Details" asp-route-id="@r.RoomId">@r.RoomName</a>
-                </td>
+                <th class="col-room">Room</th>
                 @if (User.IsInRole("Owner"))
                 {
-                    <td>@(r.CustomerName ?? "-")</td>
+                    <th class="col-customer">Customer</th>
                 }
-                <td>@r.StartDateTime.ToString("yyyy-MM-dd HH:mm")</td>
-                <td>@r.EndDateTime.ToString("yyyy-MM-dd HH:mm")</td>
-                <td>@r.Status</td>
-                <td>@r.TotalPrice.ToString("0.00") zł</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@r.Id">Details</a>
-                        @if (User.IsInRole("Owner") && r.Status == BookingStatus.Pending)
-                        {
-                            <form asp-action="Accept" asp-route-id="@r.Id" method="post" class="d-inline" style="margin-left:10px;">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-success">Accept</button>
-                            </form>
-
-                            <form asp-action="Reject" asp-route-id="@r.Id" method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger">Reject</button>
-                            </form>
-                        }
-                </td>
+                <th class="col-start">Start</th>
+                <th class="col-end">End</th>
+                <th class="col-status">Status</th>
+                <th class="col-total">Total</th>
+                <th class="col-actions"></th>
             </tr>
-        }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td class="col-room">
+                        <a asp-controller="Rooms" asp-action="Details" asp-route-id="@r.RoomId">@r.RoomName</a>
+                    </td>
+                    @if (User.IsInRole("Owner"))
+                    {
+                        <td class="col-customer">@r.CustomerName</td>
+                    }
+                    <td class="col-start">@r.StartDateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td class="col-end">@r.EndDateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td class="col-status">
+                        <span class="status @r.Status.ToString().ToLower()">
+                            @r.Status
+                        </span>
+                    </td>
+                    <td class="col-total">@r.TotalPrice.ToString("0.00") zł</td>
+                    <td class="col-actions">
+                        <div class="actions">
+                            <a asp-action="Details" class="details-link" asp-route-id="@r.Id">Details</a>
+                                @if (User.IsInRole("Owner") && r.Status == BookingStatus.Pending)
+                                {
+                                    <form asp-action="Accept" class="action-form" asp-route-id="@r.Id" method="post" class="d-inline" style="margin-left:10px;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                                    </form>
+
+                                    <form asp-action="Reject" class="action-form" asp-route-id="@r.Id" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                    </form>
+                                }
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 }

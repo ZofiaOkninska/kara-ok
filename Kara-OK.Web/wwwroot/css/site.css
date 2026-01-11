@@ -29,3 +29,223 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* ===== Global look ===== */
+:root{
+  --bg: #0b1220;
+  --surface: rgba(255,255,255,.06);
+  --surface-2: rgba(255,255,255,.10);
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.70);
+  --border: rgba(255,255,255,.14);
+  --shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+.app-body{
+  background: radial-gradient(1200px 600px at 20% 0%, rgba(120, 90, 255, .25), transparent 60%),
+              radial-gradient(900px 500px at 90% 20%, rgba(0, 200, 255, .18), transparent 60%),
+              var(--bg);
+  color: var(--text);
+}
+
+/* ===== Navbar ===== */
+.app-navbar{
+  background: rgba(10, 18, 35, .75);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.app-brand{
+  color: var(--text) !important;
+  font-weight: 700;
+  letter-spacing: .3px;
+}
+
+.app-navbar .nav-link{
+  color: var(--muted) !important;
+  font-weight: 500;
+}
+
+.app-navbar .nav-link:hover{
+  color: var(--text) !important;
+}
+
+.app-nav-user{
+  color: var(--muted);
+}
+
+/* ===== Main surface/card style ===== */
+.container > .card,
+.app-card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.card-dark {
+  background: rgba(15, 23, 42, 0.85); /* granatowo-ciemne */
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.table{
+  color: var(--text);
+}
+
+.table-dark {
+  --bs-table-bg: transparent;
+  --bs-table-color: #e5e7eb;
+  --bs-table-border-color: rgba(255,255,255,0.08);
+}
+
+.table-dark tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.table thead th{
+  color: var(--muted);
+  border-bottom-color: var(--border);
+}
+
+.table td, .table th{
+  border-top-color: var(--border);
+}
+
+/* Inputs */
+.form-control, .form-select, textarea{
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 12px;
+}
+
+.form-control:focus, .form-select:focus, textarea:focus{
+  background: var(--surface-2);
+  color: var(--text);
+  border-color: rgba(120, 90, 255, .55);
+  box-shadow: 0 0 0 .2rem rgba(120, 90, 255, .18);
+}
+
+.text-danger{
+  color: #ff6b6b !important;
+}
+
+/* Footer */
+.app-footer{
+  border-top: 1px solid var(--border);
+  background: rgba(10, 18, 35, .55);
+  color: var(--muted);
+  padding: 14px 0;
+}
+
+a {
+  color: #7dd3fc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  color: #bae6fd;
+  text-decoration: underline;
+}
+
+table {
+  table-layout: fixed; 
+  width: 100%;
+}
+
+table th,
+table td {
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: 10px 14px;
+}
+
+table .col-name { width: 45%; }
+table .col-cap  { width: 15%; text-align: center; }
+table .col-price{ width: 20%; text-align: right; }
+table .col-actions { width: 20%; text-align: right; }
+
+table td.col-name { white-space: normal; } 
+
+.requests-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.requests-table th,
+.requests-table td {
+    padding: 10px 14px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.requests-table .col-room     { width: 22%; }
+.requests-table .col-customer { width: 18%; }
+.requests-table .col-start    { width: 14%; }
+.requests-table .col-end      { width: 10%; text-align: center; }
+.requests-table .col-status   { width: 14%; text-align: center; }
+.requests-table .col-total    { width: 12%; text-align: right; }
+.requests-table .col-actions  { width: 20%; text-align: right; }
+
+.requests-table .actions{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;       
+  white-space: nowrap;
+}
+
+.requests-table .actions form{
+    margin: 0;                
+}
+
+.requests-table td.col-room,
+.requests-table td.col-customer {
+    white-space: normal;
+}
+
+.requests-table .details-link{
+  opacity: .9;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+.requests-table .details-link:hover{
+  opacity: 1;
+  background: rgba(255,255,255,.10);
+}
+
+.status {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status.pending {
+    background: rgba(255, 193, 7, 0.15);
+    color: #ffc107;
+}
+
+.status.confirmed {
+    background: rgba(25, 135, 84, 0.15);
+    color: #4ade80;
+}
+
+.status.rejected {
+    background: rgba(220, 53, 69, 0.15);
+    color: #f87171;
+}
+
+.status.cancelled {
+    background: rgba(108, 117, 125, 0.15);
+    color: #adb5bd;
+}
