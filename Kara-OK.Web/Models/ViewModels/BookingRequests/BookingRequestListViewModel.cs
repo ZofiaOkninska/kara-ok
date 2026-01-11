@@ -1,3 +1,5 @@
+using Kara_OK.Web.Models.Enums;
+
 namespace Kara_OK.Web.Models.ViewModels.BookingRequests;
 
 public sealed class BookingRequestListViewModel
@@ -11,7 +13,7 @@ public sealed class BookingRequestListViewModel
     public DateTime EndDateTime => StartDateTime.AddMinutes(DurationMinutes);
 
     public int PeopleCount { get; init; }
-    public string Status { get; init; } = string.Empty;
+    public BookingStatus Status { get; init; } 
 
     public decimal PricePerHourAtRequest { get; init; }
     public decimal TotalPrice { get; init; }

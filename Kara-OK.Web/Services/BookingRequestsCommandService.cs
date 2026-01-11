@@ -107,4 +107,70 @@ public sealed class BookingRequestsCommandService
         return (true, new(), request.Id);
     }
 
+    public async Task<(bool Success, List<(string Field, string Message)> Errors)>
+    AcceptAsync(int requestId, ClaimsPrincipal owner)
+    {
+        var errors = new List<(string, string)>();
+
+        var ownerId = _userManager.GetUserId(owner);
+        if (string.IsNullOrWhiteSpace(ownerId))
+        {
+            errors.Add((string.Empty, "You must be logged in."));
+            return (false, errors);
+        }
+
+        var req = await _db.BookingRequests.SingleOrDefaultAsync(r => r.Id == requestId);
+        if (req is null)
+        {
+            errors.Add((string.Empty, "Request not found."));
+            return (false, errors);
+        }
+
+        if (req.Status != BookingStatus.Pending)
+        {
+            errors.Add((string.Empty, "Only Pending requests can be accepted/rejected."));
+            return (false, errors);
+        }
+
+        req.Status = BookingStatus.Confirmed;
+        req.DecidedAt = DateTime.Now;
+        req.DecidedByUserId = ownerId;
+
+        await _db.SaveChangesAsync();
+        return (true, errors);
+    }
+
+    public async Task<(bool Success, List<(string Field, string Message)> Errors)>
+        RejectAsync(int requestId, ClaimsPrincipal owner)
+    {
+        var errors = new List<(string, string)>();
+
+        var ownerId = _userManager.GetUserId(owner);
+        if (string.IsNullOrWhiteSpace(ownerId))
+        {
+            errors.Add((string.Empty, "You must be logged in."));
+            return (false, errors);
+        }
+
+        var req = await _db.BookingRequests.SingleOrDefaultAsync(r => r.Id == requestId);
+        if (req is null)
+        {
+            errors.Add((string.Empty, "Request not found."));
+            return (false, errors);
+        }
+
+        if (req.Status != BookingStatus.Pending)
+        {
+            errors.Add((string.Empty, "Only Pending requests can be accepted/rejected."));
+            return (false, errors);
+        }
+
+        req.Status = BookingStatus.Rejected;
+        req.DecidedAt = DateTime.Now;
+        req.DecidedByUserId = ownerId;
+
+        await _db.SaveChangesAsync();
+        return (true, errors);
+    }
+
 }

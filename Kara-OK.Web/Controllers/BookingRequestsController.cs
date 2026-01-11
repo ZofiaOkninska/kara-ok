@@ -57,7 +57,7 @@ public class BookingRequestsController : Controller
                 StartDateTime = br.StartDateTime,
                 DurationMinutes = br.DurationMinutes,
                 PeopleCount = br.PeopleCount,
-                Status = br.Status.ToString(),
+                Status = br.Status,
                 PricePerHourAtRequest = br.PricePerHourAtRequest,
                 TotalPrice = br.TotalPrice,
                 CustomerName = isOwner ? (br.CustomerUser.FirstName + " " + br.CustomerUser.LastName) : null
@@ -101,7 +101,7 @@ public class BookingRequestsController : Controller
                 StartDateTime = br.StartDateTime,
                 DurationMinutes = br.DurationMinutes,
                 PeopleCount = br.PeopleCount,
-                Status = br.Status.ToString(),
+                Status = br.Status,
                 PricePerHourAtRequest = br.PricePerHourAtRequest,
                 TotalPrice = br.TotalPrice,
                 IsPaid = br.IsPaid,
@@ -173,11 +173,44 @@ public class BookingRequestsController : Controller
         if (!success)
         {
             foreach (var (field, message) in error)
-                ModelState.AddModelError(field, message);
+                ModelState.AddModelError(field ?? string.Empty, message);
             return View(model);
         }
 
-        // TODO: in the furure redirect to /Requests 
-        return RedirectToAction("Details", "Rooms", new { id = model.RoomId });
+        return RedirectToAction("Index", "BookingRequests");
+    }
+
+    [Authorize(Roles = "Owner")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Accept(int id)
+    {
+        var (success, errors) = await _command.AcceptAsync(id, User);
+        if (!success)
+        {
+            foreach (var (field, msg) in errors)
+                ModelState.AddModelError(field ?? string.Empty, msg);
+
+            return RedirectToAction(nameof(Details), new { id }); // MVP: pokaż błąd po redirect? patrz niżej
+        }
+
+        return RedirectToAction(nameof(Details), new { id });
+    }
+
+    [Authorize(Roles = "Owner")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Reject(int id)
+    {
+        var (success, errors) = await _command.RejectAsync(id, User);
+        if (!success)
+        {
+            foreach (var (field, msg) in errors)
+                ModelState.AddModelError(field ?? string.Empty, msg);
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        return RedirectToAction(nameof(Details), new { id });
     }
 }

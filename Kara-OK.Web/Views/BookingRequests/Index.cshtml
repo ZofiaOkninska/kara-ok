@@ -1,3 +1,4 @@
+@using Kara_OK.Web.Models.Enums
 @model IReadOnlyList<Kara_OK.Web.Models.ViewModels.BookingRequests.BookingRequestListViewModel>
 
 @{
@@ -8,7 +9,7 @@
 
 @if (User.IsInRole("Customer"))
 {
-    <p>
+    <p style="margin-top: 20px;">
         <a class="btn btn-primary" asp-controller="Rooms" asp-action="Index">Choose room to create a new request</a>
     </p>
 }
@@ -51,6 +52,18 @@ else
                 <td>@r.TotalPrice.ToString("0.00") zł</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@r.Id">Details</a>
+                        @if (User.IsInRole("Owner") && r.Status == BookingStatus.Pending)
+                        {
+                            <form asp-action="Accept" asp-route-id="@r.Id" method="post" class="d-inline" style="margin-left:10px;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-success">Accept</button>
+                            </form>
+
+                            <form asp-action="Reject" asp-route-id="@r.Id" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger">Reject</button>
+                            </form>
+                        }
                 </td>
             </tr>
         }
