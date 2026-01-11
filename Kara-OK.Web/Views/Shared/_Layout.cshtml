@@ -29,6 +29,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Rooms" asp-action="Index">Rooms</a>
                         </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="BookingRequests" asp-action="Index">
+                                    @(User.IsInRole("Owner") ? "Requests" : "My requests")
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

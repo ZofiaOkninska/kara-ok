@@ -1,0 +1,54 @@
+@model Kara_OK.Web.Models.ViewModels.BookingRequests.BookingRequestDetailsViewModel
+
+@{
+    ViewData["Title"] = "Request details";
+}
+
+<h1>Request details</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Room</dt>
+    <dd class="col-sm-9">
+        <a asp-controller="Rooms" asp-action="Details" asp-route-id="@Model.RoomId">@Model.RoomName</a>
+    </dd>
+
+    @if (User.IsInRole("Owner"))
+    {
+        <dt class="col-sm-3">Customer</dt>
+        <dd class="col-sm-9">@(Model.CustomerName ?? "-")</dd>
+    }
+
+    <dt class="col-sm-3">Start</dt>
+    <dd class="col-sm-9">@Model.StartDateTime.ToString("yyyy-MM-dd HH:mm")</dd>
+
+    <dt class="col-sm-3">End</dt>
+    <dd class="col-sm-9">@Model.EndDateTime.ToString("yyyy-MM-dd HH:mm")</dd>
+
+    <dt class="col-sm-3">People</dt>
+    <dd class="col-sm-9">@Model.PeopleCount</dd>
+
+    <dt class="col-sm-3">Status</dt>
+    <dd class="col-sm-9">@Model.Status</dd>
+
+    <dt class="col-sm-3">Price/hour (snapshot)</dt>
+    <dd class="col-sm-9">@Model.PricePerHourAtRequest.ToString("0.00") zł</dd>
+
+    <dt class="col-sm-3">Total</dt>
+    <dd class="col-sm-9">@Model.TotalPrice.ToString("0.00") zł</dd>
+
+    <dt class="col-sm-3">Paid</dt>
+    <dd class="col-sm-9">@(Model.IsPaid ? "Yes" : "No")</dd>
+
+    @if (User.IsInRole("Owner"))
+    {
+        <dt class="col-sm-3">Decided at</dt>
+        <dd class="col-sm-9">@(Model.DecidedAt?.ToString("yyyy-MM-dd HH:mm") ?? "-")</dd>
+
+        <dt class="col-sm-3">Decided by</dt>
+        <dd class="col-sm-9">@(Model.DecidedByName ?? "-")</dd>
+    }
+</dl>
+
+<p>
+    <a asp-action="Index">Back to list</a>
+</p>
