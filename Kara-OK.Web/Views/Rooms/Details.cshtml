@@ -38,3 +38,21 @@ else
 {
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
 }
+
+@if (User.Identity?.IsAuthenticated == true && User.IsInRole("Customer"))
+{
+    <a class="btn btn-primary"
+       asp-controller="BookingRequests"
+       asp-action="Create"
+       asp-route-roomId="@Model.Id">
+        Reserve
+    </a>
+}
+else if (User.Identity?.IsAuthenticated != true)
+{
+    <a class="btn btn-primary"
+       asp-area="Identity"
+       asp-page="/Account/Login">
+        Log in to reserve
+    </a>
+}

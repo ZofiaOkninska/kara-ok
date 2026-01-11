@@ -1,0 +1,58 @@
+@model Kara_OK.Web.Models.ViewModels.BookingRequests.CreateBookingRequestViewModel
+
+@{
+    ViewData["Title"] = "Create booking request";
+}
+
+<h1>Create booking request</h1>
+
+<p>
+    Room: <strong>@Model.RoomName</strong><br/>
+    Current price: <strong>@Model.CurrentPricePerHour.ToString("0.00") zł</strong> / hour
+</p>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="RoomId" type="hidden" />
+    <input asp-for="RoomName" type="hidden" />
+    <input asp-for="CurrentPricePerHour" type="hidden" />
+
+    <div class="mb-3">
+        <label asp-for="StartDateTime" class="form-label"></label>
+        <input asp-for="StartDateTime" class="form-control" type="datetime-local" step="60" />
+        <span asp-validation-for="StartDateTime" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Duration</label>
+        <div class="d-flex gap-2">
+            <select asp-for="DurationHours" class="form-control">
+            @for (var h = 0; h <= 6; h++) { <option value="@h">@h h</option> }
+            </select>
+
+            <select asp-for="DurationExtraMinutes" class="form-control">
+            @foreach (var m in new[] { 0, 15, 30, 45 })
+            { <option value="@m">@m min</option> }
+            </select>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PeopleCount" class="form-label"></label>
+        <input asp-for="PeopleCount" class="form-control" />
+        <span asp-validation-for="PeopleCount" class="text-danger"></span>
+    </div>
+
+    @if (ViewBag.EstimatedTotal != null)
+    {
+        <p>Estimated total: <strong>@(((decimal)ViewBag.EstimatedTotal).ToString("0.00")) zł</strong></p>
+    }
+    <button type="submit" name="action" value="calc" class="btn btn-outline-secondary">
+        Calculate price
+    </button>
+
+    <button type="submit" name="action" value="save" class="btn btn-primary">Save</button>
+    <a asp-controller="Rooms" asp-action="Details" asp-route-id="@Model.RoomId" class="btn btn-secondary">Cancel</a>
+</form>

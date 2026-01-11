@@ -31,6 +31,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 builder.Services.AddTransient<IEmailSender, DevEmailSender>();
 builder.Services.AddScoped<RoomsQueryService>();
 builder.Services.AddScoped<RoomsCommandService>();
+builder.Services.AddScoped<BookingRequestsCommandService>();
 
 // Localization - Polish
 var pl = new CultureInfo("pl-PL");

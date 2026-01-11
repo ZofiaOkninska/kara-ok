@@ -31,6 +31,7 @@ public class RoomsController : Controller
         return View(room);
     }
 
+    // GET: /Rooms/Edit/{id}
     [Authorize(Roles = "Owner")]
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
